@@ -20,23 +20,21 @@ services:
        - "8000:80"
      volumes:
        - ./bestmotives:/var/www/html
-
      restart: always
      environment:
        WORDPRESS_DB_HOST: db:3306
        WORDPRESS_DB_NAME: best
        WORDPRESS_DB_PASSWORD: wordpress
-   doc:
-     depends_on:
-       - db
-     image: wordpress:latest
-     ports:
-       - "9000:80"
-     volumes:
-       - ./doc:/var/www/html
-     restart: always
-     environment:
-       WORDPRESS_DB_HOST: db:3306
-       WORDPRESS_DB_NAME: wordpress
-       WORDPRESS_DB_PASSWORD: wordpress
-       
+   phpmtadmin:
+      depends_on: 
+        - db
+      image: phpmyadmin/phpmyadmin
+      ports: 
+        - "8080:80"
+      restart: always
+      environment:
+        - PMA_ARBITRARY=1
+        - PMA_HOST=db:3306
+        - PMA_USER=root
+        - PMA_PASSWORD=wordpress
+      
